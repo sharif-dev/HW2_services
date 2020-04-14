@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.services.R;
+import com.example.services.Services.ShakeService;
 
 public class ShakeRange extends DialogFragment {
     private int range = 1;
@@ -51,6 +55,27 @@ public class ShakeRange extends DialogFragment {
         });
     }
 
+
+    private void startShakeService() {
+        final Context currContext = getContext();
+        final int range = this.range;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(currContext, ShakeService.class);
+                        intent.putExtra(getString(R.string.shaking_range_tag), range);
+                        currContext.startService(intent);
+                    }
+                });
+            }
+        });
+        thread.start();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -64,6 +89,8 @@ public class ShakeRange extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                ShakeService shakeService = new ShakeService();
+                                startShakeService();
                                 shakeRange.dismiss();
                             }
                         });
