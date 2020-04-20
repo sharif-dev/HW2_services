@@ -68,8 +68,10 @@ public class ShakeService extends IntentService implements SensorEventListener {
                 powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK |
                         PowerManager.ACQUIRE_CAUSES_WAKEUP |
                         PowerManager.ON_AFTER_RELEASE, "appname::WakeLock");
-        if (!isScreenOn)
+        if (!isScreenOn) {
             wakeLock.acquire();
+            wakeLock.release();
+        }
     }
 
     @Override

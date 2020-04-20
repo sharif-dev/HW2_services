@@ -2,6 +2,7 @@ package com.example.services.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.example.services.Fragments.ShakeAllow;
