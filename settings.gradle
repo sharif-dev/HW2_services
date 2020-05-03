@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Services'
+rootProject.name='hw2'
