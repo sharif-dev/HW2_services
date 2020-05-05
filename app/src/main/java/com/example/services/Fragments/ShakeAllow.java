@@ -15,7 +15,6 @@ import com.example.services.R;
 public class ShakeAllow extends DialogFragment {
     private boolean allowed = false;
 
-
     private void setAllowed(boolean allowed) {
         this.allowed = allowed;
     }
